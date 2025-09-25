@@ -8,12 +8,12 @@ Welcome to Byte Back's project repository for Byte Forward 2025 Hackathon! This 
 
 ### Built With
 
-- [Next.js 15](https://nextjs.org/)
-- [React 19](https://react.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Prisma](https://www.prisma.io/)
-- [Clerk](https://clerk.com/)
-- [Tailwind CSS](https://tailwindcss.com/)
+- [Next.js 15](https://nextjs.org/) - Latest React framework with App Router for server components & streaming
+- [React 19](https://react.dev/) - Modern UI library with concurrent rendering & automatic performance optimizations
+- [TypeScript](https://www.typescriptlang.org/) - Full type safety for robust code quality & modern ECMAScript features
+- [Prisma](https://www.prisma.io/) - Type-safe ORM with auto-generated queries for secure database operations
+- [Clerk](https://clerk.com/) - Modern auth with built-in security & comprehensive user management
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS for rapid UI dev with zero runtime overhead
 
 ## 🚀 Getting Started
 
