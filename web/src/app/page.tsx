@@ -1,4 +1,5 @@
 import { currentUser } from "@clerk/nextjs/server";
+import { Button } from "@/components/ui/button";
 
 export default async function Home() {
   const user = await currentUser();
@@ -8,6 +9,7 @@ export default async function Home() {
   return (
     <div>
       <div>Authenticated</div>
+      <Button>hello</Button>
     </div>
   );
 }
