@@ -15,6 +15,17 @@ Welcome to Byte Back's project repository for Byte Forward 2025 Hackathon! This 
 - [Clerk](https://clerk.com/) - Modern auth with built-in security & comprehensive user management
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS for rapid UI dev with zero runtime overhead
 
+## 🎯 Features
+
+## 👥 Team Byte Back
+
+- **Waffen Sultan** - Company | Role
+- **Ostline Casao** - Company | Role
+- **John Yumul** - Company | Role
+- **Simonee Ezekiel** - Company | Role
+
+[List your main features here]
+
 ## 🚀 Getting Started
 
 Follow these simple steps to get a local copy up and running.
@@ -70,8 +81,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## 🛠 Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
 ### Project Structure
 
 ```
@@ -84,17 +93,6 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 ├── public/         # Static assets
 └── [Other config files]
 ```
-
-## 🎯 Features
-
-[List your main features here]
-
-## 👥 Team Byte Back
-
-- [Team Member 1] - Role
-- [Team Member 2] - Role
-- [Team Member 3] - Role
-- [Team Member 4] - Role
 
 ## 📄 License
 
