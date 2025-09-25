@@ -1,10 +1,13 @@
-import prisma from "@/prisma/lib/prisma";
-import { notFound } from "next/navigation";
+import { currentUser } from "@clerk/nextjs/server";
 
 export default async function Home() {
+  const user = await currentUser();
+
+  if (!user) return <div>No userr</div>;
+
   return (
     <div>
-      <div>Hello!</div>
+      <div>Authenticated</div>
     </div>
   );
 }
