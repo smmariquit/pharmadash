@@ -1,7 +1,9 @@
+"use client";
+
 export default function RootPage() {
   return (
     <div>
-      <div>Test</div>
+      <div>testasta</div>
     </div>
   );
 }
