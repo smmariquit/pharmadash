@@ -2,11 +2,18 @@ import { NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
 import { Product } from "@/models/product";
 
+interface RouteContext {
+  params: {
+    productId: string;
+  };
+}
+
 // GET /api/products/{productId} - Get product details
 export async function GET(
   request: Request,
-  { params }: { params: { productId: string } },
+  context: RouteContext,
 ) {
+  const { params } = context;
   console.log("📥 GET /api/products/:id request received", params.productId);
 
   try {
@@ -32,8 +39,9 @@ export async function GET(
 // PUT /api/products/{productId} - Update product
 export async function PUT(
   request: Request,
-  { params }: { params: { productId: string } },
+  context: RouteContext,
 ) {
+  const { params } = context;
   console.log("📥 PUT /api/products/:id request received", params.productId);
 
   try {
@@ -75,8 +83,9 @@ export async function PUT(
 // DELETE /api/products/{productId} - Delete product
 export async function DELETE(
   request: Request,
-  { params }: { params: { productId: string } },
+  context: RouteContext,
 ) {
+  const { params } = context;
   console.log("📥 DELETE /api/products/:id request received", params.productId);
 
   try {
