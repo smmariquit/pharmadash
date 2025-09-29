@@ -9,8 +9,11 @@ export default function Page() {
 
   // Helper function to make API calls
   const handleApiCall = async (endpoint: string, method: string = 'GET', body?: any) => {
+    console.log(`🚀 [Dashboard] Starting ${method} request to ${endpoint}`);
+    
     setLoading(true);
     setError(null);
+    
     try {
       const options: RequestInit = {
         method,
@@ -21,15 +24,42 @@ export default function Page() {
 
       if (body && method !== 'GET') {
         options.body = JSON.stringify(body);
+        console.log('📤 [Dashboard] Request body:', JSON.stringify(body, null, 2));
       }
 
+      console.log('🔄 [Dashboard] Making fetch request...');
       const response = await fetch(endpoint, options);
+      
+      console.log(`📡 [Dashboard] Response status: ${response.status} ${response.statusText}`);
+      console.log(`📡 [Dashboard] Response headers:`, Object.fromEntries(response.headers.entries()));
+      
+      if (!response.ok) {
+        console.error(`❌ [Dashboard] HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error(`❌ [Dashboard] Error response body:`, errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+
+      console.log('📥 [Dashboard] Parsing JSON response...');
       const data = await response.json();
+      console.log('📦 [Dashboard] Response data:', data);
+      
       setResponseData(data);
+      console.log('✅ [Dashboard] API call completed successfully');
+      
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      console.error('❌ [Dashboard] Error in API call:');
+      console.error('Error details:', err);
+      console.error('Error name:', err instanceof Error ? err.name : 'Unknown');
+      console.error('Error message:', err instanceof Error ? err.message : 'Unknown error');
+      
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+      setError(errorMessage);
+      console.error(`❌ [Dashboard] Setting error state: ${errorMessage}`);
+      
     } finally {
       setLoading(false);
+      console.log('🏁 [Dashboard] API call finished (loading set to false)');
     }
   };
 
