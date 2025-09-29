@@ -1,95 +1,114 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/firebase";
-import { collection, getDocs, query, limit, startAfter, where, addDoc, orderBy, writeBatch, doc } from "firebase/firestore";
+import { adminDb } from "@/lib/firebase-admin";
 import { Product } from "@/models/product";
 
 // GET /api/products - List all products with filtering/pagination
 export async function GET(request: Request) {
+  console.log("📥 GET /api/products request received");
+
   try {
     const { searchParams } = new URL(request.url);
-    const pageSize = Number(searchParams.get('pageSize')) || 10;
-    const lastId = searchParams.get('lastId');
-    const category = searchParams.get('category');
+    const pageSize = Number(searchParams.get("pageSize")) || 10;
+    const lastId = searchParams.get("lastId");
+    const category = searchParams.get("category");
 
-    let q = query(collection(db, 'products'), orderBy('_id'), limit(pageSize));
+    console.log("🔍 Query params:", { pageSize, lastId, category });
 
-    // Add pagination if lastId is provided
+    // ✅ Admin SDK syntax
+    let query = adminDb.collection("products").orderBy("_id").limit(pageSize);
+
     if (lastId) {
-      q = query(q, startAfter(lastId));
+      const lastDoc = await adminDb.collection("products").doc(lastId).get();
+      query = query.startAfter(lastDoc);
     }
 
-    // Add category filter if provided
     if (category) {
-      q = query(q, where('category', '==', category));
+      query = query.where("category", "==", category);
     }
 
-    const snapshot = await getDocs(q);
-    const products = snapshot.docs.map(doc => ({
+    console.log("📚 Fetching products from Firestore...");
+    const snapshot = await query.get();
+    const products = snapshot.docs.map((doc) => ({
       id: doc.id,
-      ...doc.data()
+      ...doc.data(),
     }));
+    console.log(`✅ Found ${products.length} products`);
 
     return NextResponse.json({
       products,
-      lastId: products.length > 0 ? products[products.length - 1].id : null
-    }, { status: 200 });
-
+      lastId: products.length > 0 ? products[products.length - 1].id : null,
+    });
   } catch (error) {
-    console.error('Error fetching products:', error);
+    console.error("❌ Error fetching products:", error);
     return NextResponse.json(
-      { error: 'Failed to fetch products' },
-      { status: 500 }
+      { error: "Failed to fetch products" },
+      { status: 500 },
     );
   }
 }
 
 // POST /api/products - Create new product(s)
 export async function POST(request: Request) {
+  console.log("📥 POST /api/products request received");
+
   try {
     const body = await request.json();
+    console.log("📦 Received request body:", body);
+
     const products: Partial<Product>[] = Array.isArray(body) ? body : [body];
     const now = Date.now();
 
-    // Validate all products
+    console.log(`🔍 Validating ${products.length} products...`);
     for (const product of products) {
       if (!product.store_id || !product.sku || !product.brand) {
+        console.log("❌ Validation failed for product:", product);
         return NextResponse.json(
-          { error: 'Missing required fields in one or more products' },
-          { status: 400 }
+          {
+            error: "Missing required fields in one or more products",
+            product: product,
+          },
+          { status: 400 },
         );
       }
     }
 
-    // Add metadata and create all products
-    const batch = writeBatch(db);
+    console.log("📝 Creating batch operation...");
+    // ✅ Admin SDK batch syntax
+    const batch = adminDb.batch();
     const productRefs = [];
 
     for (const product of products) {
-      const docRef = doc(collection(db, 'products'));
+      const docRef = adminDb.collection("products").doc(); // Auto-generate ID
       const productWithMeta = {
         ...product,
         meta: {
           created_at: now,
-          updated_at: now
-        }
+          updated_at: now,
+        },
       };
       batch.set(docRef, productWithMeta);
       productRefs.push({ id: docRef.id, data: productWithMeta });
     }
 
+    console.log("💾 Committing batch to Firestore...");
     await batch.commit();
+    console.log("✅ Batch committed successfully");
 
-    return NextResponse.json({
-      message: `Successfully created ${products.length} product(s)`,
-      products: productRefs
-    }, { status: 201 });
-
-  } catch (error) {
-    console.error('Error creating products:', error);
     return NextResponse.json(
-      { error: 'Failed to create products' },
-      { status: 500 }
+      {
+        message: `Successfully created ${products.length} product(s)`,
+        products: productRefs,
+      },
+      { status: 201 },
+    );
+  } catch (error) {
+    console.error("❌ Error creating products:", error);
+    return NextResponse.json(
+      {
+        error: "Failed to create products",
+        details: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 },
     );
   }
 }
-

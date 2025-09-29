@@ -1,47 +1,81 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/firebase";
-import { collection, query, where, getDocs, or } from "firebase/firestore";
+import { adminDb } from "@/lib/firebase-admin";
 
 // GET /api/products/search - Search products by barcode/name/SKU
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const searchTerm = searchParams.get('q');
+    const searchTerm = searchParams.get("q");
 
     if (!searchTerm) {
       return NextResponse.json(
-        { error: 'Search term is required' },
-        { status: 400 }
+        { error: "Search term is required" },
+        { status: 400 },
       );
     }
 
-    // Create a query with multiple OR conditions
-    const q = query(
-      collection(db, 'products'),
-      or(
-        where('barcode', '==', searchTerm),
-        where('sku', '==', searchTerm),
-        where('brand', '>=', searchTerm),
-        where('brand', '<=', searchTerm + ''),
-        where('generic', '>=', searchTerm),
-        where('generic', '<=', searchTerm + '')
-      )
-    );
+    console.log("🔍 Searching for:", searchTerm);
 
-    const snapshot = await getDocs(q);
-    const products = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
+    // Admin SDK doesn't support OR queries directly
+    // We need to run multiple queries and merge results
+    const productsMap = new Map();
+
+    // Query 1: Exact match on barcode
+    const barcodeQuery = await adminDb
+      .collection("products")
+      .where("barcode", "==", searchTerm)
+      .get();
+
+    barcodeQuery.docs.forEach((doc) => {
+      productsMap.set(doc.id, { id: doc.id, ...doc.data() });
+    });
+
+    // Query 2: Exact match on SKU
+    const skuQuery = await adminDb
+      .collection("products")
+      .where("sku", "==", searchTerm)
+      .get();
+
+    skuQuery.docs.forEach((doc) => {
+      productsMap.set(doc.id, { id: doc.id, ...doc.data() });
+    });
+
+    // Query 3: Prefix search on brand
+    const brandQuery = await adminDb
+      .collection("products")
+      .where("brand", ">=", searchTerm)
+      .where("brand", "<=", searchTerm + "\uf8ff")
+      .get();
+
+    brandQuery.docs.forEach((doc) => {
+      productsMap.set(doc.id, { id: doc.id, ...doc.data() });
+    });
+
+    // Query 4: Prefix search on generic
+    const genericQuery = await adminDb
+      .collection("products")
+      .where("generic", ">=", searchTerm)
+      .where("generic", "<=", searchTerm + "\uf8ff")
+      .get();
+
+    genericQuery.docs.forEach((doc) => {
+      productsMap.set(doc.id, { id: doc.id, ...doc.data() });
+    });
+
+    // Convert map to array
+    const products = Array.from(productsMap.values());
+
+    console.log(`✅ Found ${products.length} products`);
 
     return NextResponse.json({ products }, { status: 200 });
-
   } catch (error) {
-    console.error('Error searching products:', error);
+    console.error("❌ Error searching products:", error);
     return NextResponse.json(
-      { error: 'Failed to search products' },
-      { status: 500 }
+      {
+        error: "Failed to search products",
+        details: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 },
     );
   }
 }
-
