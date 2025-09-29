@@ -3,14 +3,14 @@ import { adminDb } from "@/lib/firebase-admin";
 import { Product } from "@/models/product";
 
 // GET /api/products/{productId} - Get product details
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { productId: string } }
-) {
-  console.log("📥 GET /api/products/:id request received", params.productId);
+export async function POST(request: NextRequest) {
+  const url = new URL(request.url);
+  const productId = url.pathname.split("/")[4]; // "products/[productId]/barcodes
+
+  console.log("📥 GET /api/products/:id request received", productId);
 
   try {
-    const docRef = adminDb.collection("products").doc(params.productId);
+    const docRef = adminDb.collection("products").doc(productId);
     const docSnap = await docRef.get();
 
     if (!docSnap.exists) {
@@ -30,17 +30,17 @@ export async function GET(
 }
 
 // PUT /api/products/{productId} - Update product
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { productId: string } }
-) {
-  console.log("📥 PUT /api/products/:id request received", params.productId);
+export async function PUT(request: NextRequest) {
+  const url = new URL(request.url);
+  const productId = url.pathname.split("/")[4]; // "products/[productId]/barcodes
+  
+  console.log("📥 PUT /api/products/:id request received", productId);
 
   try {
     const body: Partial<Product> = await request.json();
     console.log("📦 Update data:", body);
 
-    const docRef = adminDb.collection("products").doc(params.productId);
+    const docRef = adminDb.collection("products").doc(productId);
 
     // Check if product exists
     const docSnap = await docRef.get();
@@ -61,7 +61,7 @@ export async function PUT(
 
     return NextResponse.json({
       message: "Product updated successfully",
-      id: params.productId,
+      id: productId,
     });
   } catch (error) {
     console.error("❌ Error updating product:", error);
@@ -73,14 +73,14 @@ export async function PUT(
 }
 
 // DELETE /api/products/{productId} - Delete product
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { productId: string } }
-) {
-  console.log("📥 DELETE /api/products/:id request received", params.productId);
+export async function DELETE(request: NextRequest) {
+  const url = new URL(request.url);
+  const productId = url.pathname.split("/")[4]; // "products/[productId]/barcodes
+
+  console.log("📥 DELETE /api/products/:id request received", productId);
 
   try {
-    const docRef = adminDb.collection("products").doc(params.productId);
+    const docRef = adminDb.collection("products").doc(productId);
 
     // Check if product exists
     const docSnap = await docRef.get();
@@ -95,7 +95,7 @@ export async function DELETE(
 
     return NextResponse.json({
       message: "Product deleted successfully",
-      id: params.productId,
+      id: productId,
     });
   } catch (error) {
     console.error("❌ Error deleting product:", error);
