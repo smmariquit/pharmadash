@@ -24,7 +24,7 @@ interface ForecastPeriod {
   end_date: string;
   base_forecast: ProductForecast[];
   adjusted_forecast: ProductForecast[];
-  external_signals: ExternalSignal[];
+  external_signals: string[]; // Array of signal IDs that reference ExternalSignal objects
   total_impact: number; // % change from base
   confidence_score: number;
 }
