@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         message: "Barcode generation requested",
-        product_id: params.productId,
+        product_id: productId,
         barcode: product.barcode,
         quantity,
         format,
