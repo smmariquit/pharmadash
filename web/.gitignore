@@ -46,3 +46,6 @@ next-env.d.ts
 
 # misc
 TODOS.md
+
+# firebase
+firebase-admin-key.json
