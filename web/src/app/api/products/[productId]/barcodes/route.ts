@@ -3,10 +3,10 @@ import { adminDb } from "@/lib/firebase-admin";
 import { Product } from "@/models/product";
 
 // POST /api/products/{productId}/barcodes - Generate/print barcodes
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { productId: string } }
-) {
+
+export async function POST(request: NextRequest) {
+  const url = new URL(request.url);
+  const productId = url.pathname.split("/")[4]; // "products/[productId]/barcodes
   try {
     console.log("📥 Barcode generation request for:", params.productId);
 
