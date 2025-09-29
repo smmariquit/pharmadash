@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
+console.log('🔥 [Firebase] Initializing Firebase configuration...');
+
 const firebaseConfig = {
   apiKey: "AIzaSyBMW3O02nfBUxUjVheSbd7AI7Ay4ITj9LE",
   authDomain: "byte-back-97254.firebaseapp.com",
@@ -11,7 +13,22 @@ const firebaseConfig = {
   measurementId: "G-PXDDR1E6CH",
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+console.log('🔥 [Firebase] Config loaded for project:', firebaseConfig.projectId);
+
+let app: any;
+let db: any;
+
+try {
+  app = initializeApp(firebaseConfig);
+  console.log('✅ [Firebase] App initialized successfully');
+  
+  db = getFirestore(app);
+  console.log('✅ [Firebase] Firestore instance created successfully');
+  
+} catch (error) {
+  console.error('❌ [Firebase] Failed to initialize Firebase:');
+  console.error('Error details:', error);
+  throw error;
+}
 
 export { app, db };
