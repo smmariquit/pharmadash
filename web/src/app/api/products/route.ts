@@ -1,127 +1,93 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/firebase";
-import { collection, getDocs, query, limit, startAfter, where, addDoc, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, limit, startAfter, where, addDoc, orderBy, writeBatch, doc } from "firebase/firestore";
 import { Product } from "@/models/product";
 
 // GET /api/products - List all products with filtering/pagination
 export async function GET(request: Request) {
-  console.log('🔍 [Products API] GET request started');
-  console.log('🔗 Request URL:', request.url);
-  
   try {
     const { searchParams } = new URL(request.url);
     const pageSize = Number(searchParams.get('pageSize')) || 10;
     const lastId = searchParams.get('lastId');
     const category = searchParams.get('category');
 
-    console.log('📊 [Products API] Query parameters:', { pageSize, lastId, category });
-
-    let q = query(collection(db, 'products'), limit(pageSize));
-    console.log('🔥 [Products API] Firebase query initialized');
-
-    // Add category filter if provided (must be done before orderBy for compound queries)
-    if (category) {
-      console.log(`🏷️ [Products API] Adding category filter: ${category}`);
-      q = query(q, where('category', '==', category));
-    }
+    let q = query(collection(db, 'products'), orderBy('_id'), limit(pageSize));
 
     // Add pagination if lastId is provided
     if (lastId) {
-      console.log(`📄 [Products API] Adding pagination from lastId: ${lastId}`);
-      const { doc } = await import('firebase/firestore');
-      const lastDoc = doc(db, 'products', lastId);
-      q = query(q, startAfter(lastDoc));
+      q = query(q, startAfter(lastId));
     }
 
-    console.log('🔥 [Products API] Executing Firestore query...');
-    const snapshot = await getDocs(q);
-    console.log(`📦 [Products API] Query successful! Found ${snapshot.docs.length} documents`);
+    // Add category filter if provided
+    if (category) {
+      q = query(q, where('category', '==', category));
+    }
 
+    const snapshot = await getDocs(q);
     const products = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
     }));
 
-    const responseData = {
+    return NextResponse.json({
       products,
       lastId: products.length > 0 ? products[products.length - 1].id : null
-    };
-
-    console.log('✅ [Products API] GET request completed successfully');
-    console.log(`📊 [Products API] Returning ${products.length} products`);
-
-    return NextResponse.json(responseData, { status: 200 });
+    }, { status: 200 });
 
   } catch (error) {
-    console.error('❌ [Products API] Error fetching products:');
-    console.error('Error details:', error);
-    console.error('Error name:', error instanceof Error ? error.name : 'Unknown');
-    console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
-    console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace');
-    
+    console.error('Error fetching products:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch products', details: error instanceof Error ? error.message : 'Unknown error' },
+      { error: 'Failed to fetch products' },
       { status: 500 }
     );
   }
 }
 
-// POST /api/products - Create new product
+// POST /api/products - Create new product(s)
 export async function POST(request: Request) {
-  console.log('📝 [Products API] POST request started');
-  
   try {
-    console.log('📥 [Products API] Parsing request body...');
-    const body: Partial<Product> = await request.json();
-    console.log('📊 [Products API] Request body parsed:', JSON.stringify(body, null, 2));
-
-    // Validate required fields
-    console.log('🔍 [Products API] Validating required fields...');
-    if (!body.store_id || !body.sku || !body.brand) {
-      console.warn('⚠️ [Products API] Missing required fields:', {
-        store_id: !!body.store_id,
-        sku: !!body.sku,
-        brand: !!body.brand
-      });
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
-    }
-    console.log('✅ [Products API] Required fields validation passed');
-
-    // Add metadata
+    const body = await request.json();
+    const products: Partial<Product>[] = Array.isArray(body) ? body : [body];
     const now = Date.now();
-    const product: Product = {
-      ...body as Product,
-      meta: {
-        created_at: now,
-        updated_at: now
+
+    // Validate all products
+    for (const product of products) {
+      if (!product.store_id || !product.sku || !product.brand) {
+        return NextResponse.json(
+          { error: 'Missing required fields in one or more products' },
+          { status: 400 }
+        );
       }
-    };
-    console.log('🏷️ [Products API] Product with metadata prepared');
+    }
 
-    console.log('🔥 [Products API] Saving to Firestore...');
-    const docRef = await addDoc(collection(db, 'products'), product);
-    console.log(`✅ [Products API] Product created successfully with ID: ${docRef.id}`);
+    // Add metadata and create all products
+    const batch = writeBatch(db);
+    const productRefs = [];
 
-    const responseData = {
-      message: 'Product created successfully',
-      id: docRef.id,
-      product
-    };
+    for (const product of products) {
+      const docRef = doc(collection(db, 'products'));
+      const productWithMeta = {
+        ...product,
+        meta: {
+          created_at: now,
+          updated_at: now
+        }
+      };
+      batch.set(docRef, productWithMeta);
+      productRefs.push({ id: docRef.id, data: productWithMeta });
+    }
 
-    return NextResponse.json(responseData, { status: 201 });
+    await batch.commit();
+
+    return NextResponse.json({
+      message: `Successfully created ${products.length} product(s)`,
+      products: productRefs
+    }, { status: 201 });
 
   } catch (error) {
-    console.error('❌ [Products API] Error creating product:');
-    console.error('Error details:', error);
-    console.error('Error name:', error instanceof Error ? error.name : 'Unknown');
-    console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
-    console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace');
-    
+    console.error('Error creating products:', error);
     return NextResponse.json(
-      { error: 'Failed to create product', details: error instanceof Error ? error.message : 'Unknown error' },
+      { error: 'Failed to create products' },
       { status: 500 }
     );
   }
