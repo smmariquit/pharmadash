@@ -8,10 +8,10 @@ export async function POST(request: NextRequest) {
   const url = new URL(request.url);
   const productId = url.pathname.split("/")[4]; // "products/[productId]/barcodes
   try {
-    console.log("📥 Barcode generation request for:", params.productId);
+    console.log("📥 Barcode generation request for:", productId);
 
     // Get the product details first
-    const docRef = adminDb.collection("products").doc(params.productId);
+    const docRef = adminDb.collection("products").doc(productId);
     const docSnap = await docRef.get();
 
     if (!docSnap.exists) {
