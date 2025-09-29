@@ -1,19 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
 import { Product } from "@/models/product";
 
-interface RouteContext {
-  params: {
-    productId: string;
-  };
-}
-
 // POST /api/products/{productId}/barcodes - Generate/print barcodes
 export async function POST(
-  request: Request,
-  context: RouteContext,
+  request: NextRequest,
+  { params }: { params: { productId: string } }
 ) {
-  const { params } = context;
   try {
     console.log("📥 Barcode generation request for:", params.productId);
 
