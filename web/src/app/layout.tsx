@@ -1,13 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import {
-  ClerkProvider,
-  UserButton,
-  SignInButton,
-  SignUpButton,
-  SignedOut,
-  SignedIn,
-} from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "Byte Back",
@@ -37,27 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body>
-          <NavBar />
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body>{children}</body>
+    </html>
   );
 }
-
-const NavBar = () => {
-  return (
-    <header className="flex justify-end items-center p-4 gap-4 h-16">
-      <SignedOut>
-        <SignInButton />
-        <SignUpButton />
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
-    </header>
-  );
-};
