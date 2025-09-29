@@ -14,6 +14,8 @@ export default function Page() {
       setIsLoading(true);
       setResult(null);
 
+      console.log("Sending request to /api/add-record");
+
       const response = await fetch("/api/add-record", {
         method: "POST",
         headers: {
@@ -25,7 +27,16 @@ export default function Page() {
         }),
       });
 
+      console.log("Response received:", response);
+
+      // Check if response is JSON
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error(`Expected JSON response but got ${contentType}`);
+      }
+
       const data = await response.json();
+      console.log("Parsed response data:", data);
 
       if (!response.ok) {
         throw new Error(data.error || "Failed to add record");
@@ -36,6 +47,7 @@ export default function Page() {
         message: `Successfully added record with ID: ${data.id}`,
       });
     } catch (error) {
+      console.error("Error in uploadToFirestore:", error);
       setResult({
         success: false,
         message: error instanceof Error ? error.message : "An error occurred",
