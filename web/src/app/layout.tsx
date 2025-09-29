@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import DebugLogger from "@/components/debug-logger";
 
 export const metadata: Metadata = {
   title: "Byte Back",
@@ -30,7 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen">{children}</body>
+      <body className="min-h-screen">
+        <DebugLogger />
+        {children}
+      </body>
     </html>
   );
 }
