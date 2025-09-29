@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/firebase";
-import { collection, getDocs, query, limit, startAfter, where, addDoc, orderBy } from "firebase/firestore";
+import { collection, getDocs, query, limit, startAfter, where, addDoc, orderBy, writeBatch, doc } from "firebase/firestore";
 import { Product } from "@/models/product";
 
 // GET /api/products - List all products with filtering/pagination
@@ -43,41 +43,51 @@ export async function GET(request: Request) {
   }
 }
 
-// POST /api/products - Create new product
+// POST /api/products - Create new product(s)
 export async function POST(request: Request) {
   try {
-    const body: Partial<Product> = await request.json();
+    const body = await request.json();
+    const products: Partial<Product>[] = Array.isArray(body) ? body : [body];
+    const now = Date.now();
 
-    // Validate required fields
-    if (!body.store_id || !body.sku || !body.brand) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+    // Validate all products
+    for (const product of products) {
+      if (!product.store_id || !product.sku || !product.brand) {
+        return NextResponse.json(
+          { error: 'Missing required fields in one or more products' },
+          { status: 400 }
+        );
+      }
     }
 
-    // Add metadata
-    const now = Date.now();
-    const product: Product = {
-      ...body as Product,
-      meta: {
-        created_at: now,
-        updated_at: now
-      }
-    };
+    // Add metadata and create all products
+    const batch = writeBatch(db);
+    const productRefs = [];
 
-    const docRef = await addDoc(collection(db, 'products'), product);
+    for (const product of products) {
+      const docRef = doc(collection(db, 'products'));
+      const productWithMeta = {
+        ...product,
+        meta: {
+          created_at: now,
+          updated_at: now
+        }
+      };
+      batch.set(docRef, productWithMeta);
+      productRefs.push({ id: docRef.id, data: productWithMeta });
+    }
+
+    await batch.commit();
 
     return NextResponse.json({
-      message: 'Product created successfully',
-      id: docRef.id,
-      product
+      message: `Successfully created ${products.length} product(s)`,
+      products: productRefs
     }, { status: 201 });
 
   } catch (error) {
-    console.error('Error creating product:', error);
+    console.error('Error creating products:', error);
     return NextResponse.json(
-      { error: 'Failed to create product' },
+      { error: 'Failed to create products' },
       { status: 500 }
     );
   }
