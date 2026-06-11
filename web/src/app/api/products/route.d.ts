@@ -1,3 +1,5 @@
+// web/src/app/api/products/route.d.ts
+
 import { NextResponse } from "next/server";
 export declare function GET(request: Request): Promise<NextResponse<{
     products: any;

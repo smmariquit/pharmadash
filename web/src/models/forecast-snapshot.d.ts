@@ -1,3 +1,5 @@
+// web/src/models/forecast-snapshot.d.ts
+
 export interface ForecastSnapshot {
     _id: string;
     store_id: string;

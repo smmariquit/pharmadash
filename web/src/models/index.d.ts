@@ -1,3 +1,5 @@
+// web/src/models/index.d.ts
+
 export * from './common';
 export * from './product';
 export * from './batch';

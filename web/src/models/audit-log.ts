@@ -1,3 +1,5 @@
+// web/src/models/audit-log.ts
+
 import { COLLECTIONS } from './common';
 
 export interface AuditLog {

@@ -1,3 +1,5 @@
+// web/src/models/grn-event.d.ts
+
 export interface GRNEvent {
     _id: string;
     store_id: string;

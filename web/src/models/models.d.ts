@@ -1,3 +1,5 @@
+// web/src/models/models.d.ts
+
 export declare const COLLECTIONS: {
     readonly PRODUCTS: "products";
     readonly BATCHES: "batches";

@@ -1,3 +1,5 @@
+// web/src/models/batch.ts
+
 export interface Batch {
   _id: string;          // Composite ID: store_id:product_id:lot_no
   store_id: string;

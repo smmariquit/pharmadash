@@ -1,3 +1,5 @@
+// web/src/components/debug-logger.tsx
+
 "use client";
 
 import { useEffect } from 'react';

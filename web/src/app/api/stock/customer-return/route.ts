@@ -1,3 +1,5 @@
+// web/src/app/api/stock/customer-return/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import { CustomerReturnRequest } from '@/types/stock-operations';
 

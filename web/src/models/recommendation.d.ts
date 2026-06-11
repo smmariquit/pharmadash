@@ -1,3 +1,5 @@
+// web/src/models/recommendation.d.ts
+
 export type RecommendationObjective = 'expected_gp_max' | 'stockout_min';
 export interface Recommendation {
     _id: string;

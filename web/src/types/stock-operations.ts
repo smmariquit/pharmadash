@@ -1,3 +1,5 @@
+// web/src/types/stock-operations.ts
+
 // Stock Operations Types for PharmaDash
 // Based on PRD requirements for stock movements and inventory management
 

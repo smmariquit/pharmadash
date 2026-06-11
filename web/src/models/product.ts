@@ -1,3 +1,5 @@
+// web/src/models/product.ts
+
 import { Meta, MedicineForm } from './common';
 
 export interface Product {

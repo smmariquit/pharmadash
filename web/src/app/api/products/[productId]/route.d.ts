@@ -1,3 +1,5 @@
+// web/src/app/api/products/[productId]/route.d.ts
+
 import { NextRequest, NextResponse } from "next/server";
 export declare function GET(request: NextRequest, { params }: {
     params: {

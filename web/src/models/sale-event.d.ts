@@ -1,3 +1,5 @@
+// web/src/models/sale-event.d.ts
+
 import { PaymentMethod } from './common';
 export interface SaleEvent {
     _id: string;

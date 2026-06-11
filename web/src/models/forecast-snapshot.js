@@ -1,3 +1,5 @@
+// web/src/models/forecast-snapshot.js
+
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sampleForecastSnapshot = void 0;

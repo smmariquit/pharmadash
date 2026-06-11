@@ -1,3 +1,5 @@
+// web/src/models/expiry-action.ts
+
 export type ExpiryActionType = 'RETURN' | 'DONATE' | 'MARKDOWN' | 'DISPOSE';
 export type ExpiryActionStatus = 'PENDING' | 'PAPERWORK_SENT' | 'COMPLETED' | 'CANCELLED';
 

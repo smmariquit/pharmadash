@@ -1,3 +1,5 @@
+// web/src/models/purchase-order.ts
+
 export type POStatus = 'DRAFT' | 'SENT' | 'RECEIVED' | 'CANCELLED';
 
 export interface PurchaseOrder {

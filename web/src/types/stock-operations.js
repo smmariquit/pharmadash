@@ -1,3 +1,5 @@
+// web/src/types/stock-operations.js
+
 "use strict";
 // Stock Operations Types for PharmaDash
 // Based on PRD requirements for stock movements and inventory management

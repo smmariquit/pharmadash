@@ -1,3 +1,5 @@
+// web/src/models/sale-event.js
+
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sampleSaleEvent = void 0;

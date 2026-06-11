@@ -1,3 +1,5 @@
+// web/src/app/api/stock/cycle-count/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import { CycleCountRequest } from '@/types/stock-operations';
 

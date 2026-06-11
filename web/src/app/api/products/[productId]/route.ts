@@ -1,3 +1,5 @@
+// web/src/app/api/products/[productId]/route.ts
+
 import { NextRequest, NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
 import { Product } from "@/models/product";

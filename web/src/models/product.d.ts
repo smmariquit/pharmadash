@@ -1,3 +1,5 @@
+// web/src/models/product.d.ts
+
 import { Meta, MedicineForm } from './common';
 export interface Product {
     _id: string;

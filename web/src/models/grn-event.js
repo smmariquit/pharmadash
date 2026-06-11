@@ -1,3 +1,5 @@
+// web/src/models/grn-event.js
+
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sampleGRNEvent = void 0;

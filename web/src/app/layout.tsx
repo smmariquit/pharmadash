@@ -1,3 +1,5 @@
+// web/src/app/layout.tsx
+
 import "./globals.css";
 
 export const metadata = {

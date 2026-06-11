@@ -1,3 +1,5 @@
+// web/src/app/api/stock/return-to-supplier/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import { ReturnToSupplierRequest } from '@/types/stock-operations';
 

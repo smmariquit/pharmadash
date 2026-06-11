@@ -1,3 +1,5 @@
+// web/src/app/api/stock/customer-return/route.d.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 export declare function POST(request: NextRequest): Promise<NextResponse<{
     success: boolean;

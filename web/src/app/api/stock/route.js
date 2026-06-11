@@ -1,3 +1,5 @@
+// web/src/app/api/stock/route.js
+
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.POST = POST;

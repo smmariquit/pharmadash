@@ -1,3 +1,5 @@
+// web/src/models/common.ts
+
 // Collection names
 export const COLLECTIONS = {
   PRODUCTS: 'products',

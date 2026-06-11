@@ -1,3 +1,5 @@
+// web/src/app/api/products/search/route.js
+
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GET = GET;

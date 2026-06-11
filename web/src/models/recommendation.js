@@ -1,3 +1,5 @@
+// web/src/models/recommendation.js
+
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sampleRecommendation = void 0;

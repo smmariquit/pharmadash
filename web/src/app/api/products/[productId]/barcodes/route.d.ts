@@ -1,3 +1,5 @@
+// web/src/app/api/products/[productId]/barcodes/route.d.ts
+
 import { NextRequest, NextResponse } from "next/server";
 export declare function POST(request: NextRequest): Promise<NextResponse<{
     error: string;

@@ -1,3 +1,5 @@
+// web/src/models/forecast-snapshot.ts
+
 export interface ForecastSnapshot {
   _id: string;          // Composite ID: store_id:product_id:period
   store_id: string;

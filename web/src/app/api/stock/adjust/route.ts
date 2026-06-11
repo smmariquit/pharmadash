@@ -1,3 +1,5 @@
+// web/src/app/api/stock/adjust/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import { StockAdjustmentRequest } from '@/types/stock-operations';
 

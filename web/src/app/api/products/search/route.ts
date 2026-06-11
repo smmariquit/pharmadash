@@ -1,3 +1,5 @@
+// web/src/app/api/products/search/route.ts
+
 import { NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
 

@@ -1,3 +1,5 @@
+// web/src/app/api/stock/receive/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import { StockReceiveRequest } from '@/types/stock-operations';
 

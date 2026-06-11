@@ -1,3 +1,5 @@
+// web/src/models/grn-event.ts
+
 export interface GRNEvent {
   _id: string;          // Composite ID: store_id:GRN_sequence
   store_id: string;

@@ -1,3 +1,5 @@
+// web/src/components/ui/button.d.ts
+
 import * as React from "react";
 import { type VariantProps } from "class-variance-authority";
 declare const buttonVariants: (props?: ({

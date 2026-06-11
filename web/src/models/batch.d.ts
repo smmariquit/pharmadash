@@ -1,3 +1,5 @@
+// web/src/models/batch.d.ts
+
 export interface Batch {
     _id: string;
     store_id: string;

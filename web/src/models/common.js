@@ -1,3 +1,5 @@
+// web/src/models/common.js
+
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCollectionReferences = exports.COLLECTIONS = void 0;

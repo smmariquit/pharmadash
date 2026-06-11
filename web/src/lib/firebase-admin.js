@@ -1,3 +1,5 @@
+// web/src/lib/firebase-admin.js
+
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminDb = void 0;

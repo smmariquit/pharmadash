@@ -1,3 +1,5 @@
+// web/src/app/layout.d.ts
+
 import "./globals.css";
 export declare const metadata: {
     title: string;

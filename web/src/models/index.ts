@@ -1,3 +1,5 @@
+// web/src/models/index.ts
+
 // Export all types and sample data
 export * from './common';
 export * from './product';

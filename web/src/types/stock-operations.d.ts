@@ -1,3 +1,5 @@
+// web/src/types/stock-operations.d.ts
+
 export interface StockReceiveRequest {
     po_id: string;
     supplier_id: string;

@@ -1,3 +1,5 @@
+// web/src/app/api/stock/movements/route.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import { StockMovementsResponse, StockMovement, StockMovementQuery } from '@/types/stock-operations';
 

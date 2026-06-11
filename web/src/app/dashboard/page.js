@@ -1,3 +1,5 @@
+// web/src/app/dashboard/page.js
+
 "use client";
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
