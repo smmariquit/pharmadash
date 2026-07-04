@@ -7,20 +7,20 @@ Our application follows a modern full-stack architecture using Next.js 15's App 
 
 ```
 ┌──────────────────┐
-│    Next.js 15    │
-│   (App Router)   │
+│ Next.js 15 │
+│ (App Router) │
 └────────┬─────────┘
-         │
+ │
 ┌────────┴─────────┐
-│  Clerk Auth      │
+│ Clerk Auth │
 └────────┬─────────┘
-         │
+ │
 ┌────────┴─────────┐
-│     Prisma       │
+│ Prisma │
 └────────┬─────────┘
-         │
+ │
 ┌────────┴─────────┐
-│   PostgreSQL     │
+│ PostgreSQL │
 └──────────────────┘
 ```
 
@@ -47,10 +47,10 @@ Our application follows a modern full-stack architecture using Next.js 15's App 
 ### 1. App Router Architecture
 ```typescript
 app/
-├── layout.tsx      # Root layout with providers
-├── page.tsx        # Landing page
-└── (auth)/         # Auth required routes
-    └── dashboard/  # Protected routes
+├── layout.tsx # Root layout with providers
+├── page.tsx # Landing page
+└── (auth)/ # Auth required routes
+ └── dashboard/ # Protected routes
 ```
 
 ### 2. API Design
@@ -62,10 +62,10 @@ app/
 ```prisma
 // Key models from schema.prisma
 model User {
-  id        String   @id
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
+ id String @id
+ email String @unique
+ name String?
+ createdAt DateTime @default(now())
 }
 ```
 
@@ -102,20 +102,20 @@ model User {
 
 ```
 ┌─────────────────┐
-│   Vercel Edge   │
-│    Network      │
+│ Vercel Edge │
+│ Network │
 └────────┬────────┘
-         │
+ │
 ┌────────┴────────┐
-│   Next.js App   │
+│ Next.js App │
 └────────┬────────┘
-         │
+ │
 ┌────────┴────────┐
 │ Prisma Accelerate│
 └────────┬────────┘
-         │
+ │
 ┌────────┴────────┐
-│   PostgreSQL    │
+│ PostgreSQL │
 └────────┬────────┘
 ```
 
@@ -140,16 +140,16 @@ model User {
 
 1. **Local Development**
  ```bash
-   pnpm dev        # Development server
-   pnpm build      # Production build
-   pnpm start      # Production server
-   ```
+ pnpm dev # Development server
+ pnpm build # Production build
+ pnpm start # Production server
+ ```
 
 2. **Database Migrations**
  ```bash
-   pnpm prisma generate  # Generate client
-   pnpm prisma db push   # Push schema changes
-   ```
+ pnpm prisma generate # Generate client
+ pnpm prisma db push # Push schema changes
+ ```
 
 ## Monitoring and Logging
 

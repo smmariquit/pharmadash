@@ -14,30 +14,30 @@ The Stock Operations API provides endpoints for managing inventory movements, st
 **Request Body**:
 ```typescript
 {
-  po_id: string;           // Purchase Order ID
-  supplier_id: string;     // Supplier identifier
-  lines: Array<{
-    product_id: string;    // Product identifier
-    lot_no: string;        // Batch/lot number
-    expiry: string;        // Expiry date (ISO format)
-    qty_received: number;  // Quantity received
-    unit_cost: number;     // Cost per unit
-  }>;
-  notes?: string;          // Optional notes
-  received_by: string;     // User who received the goods
+ po_id: string; // Purchase Order ID
+ supplier_id: string; // Supplier identifier
+ lines: Array<{
+ product_id: string; // Product identifier
+ lot_no: string; // Batch/lot number
+ expiry: string; // Expiry date (ISO format)
+ qty_received: number; // Quantity received
+ unit_cost: number; // Cost per unit
+ }>;
+ notes?: string; // Optional notes
+ received_by: string; // User who received the goods
 }
 ```
 
 **Response**:
 ```typescript
 {
-  success: boolean;
-  operation_id: string;           // GRN ID
-  message: string;
-  grn_event: object;             // Goods Receipt Note details
-  batches_created: number;       // Count of batches created
-  movements_created: number;     // Count of stock movements
-  audit_log_id: string;
+ success: boolean;
+ operation_id: string; // GRN ID
+ message: string;
+ grn_event: object; // Goods Receipt Note details
+ batches_created: number; // Count of batches created
+ movements_created: number; // Count of stock movements
+ audit_log_id: string;
 }
 ```
 
@@ -54,27 +54,27 @@ The Stock Operations API provides endpoints for managing inventory movements, st
 **Request Body**:
 ```typescript
 {
-  product_id: string;
-  batch_id?: string;               // Optional specific batch
-  adjustment_type: 'DAMAGE' | 'THEFT' | 'COUNT_VARIANCE' | 'WRITE_OFF' | 'FOUND';
-  quantity_change: number;         // Positive or negative
-  reason: string;                  // Detailed reason
-  approval_code?: string;          // Required for large adjustments
-  adjusted_by: string;             // User making adjustment
-  notes?: string;
+ product_id: string;
+ batch_id?: string; // Optional specific batch
+ adjustment_type: 'DAMAGE' | 'THEFT' | 'COUNT_VARIANCE' | 'WRITE_OFF' | 'FOUND';
+ quantity_change: number; // Positive or negative
+ reason: string; // Detailed reason
+ approval_code?: string; // Required for large adjustments
+ adjusted_by: string; // User making adjustment
+ notes?: string;
 }
 ```
 
 **Response**:
 ```typescript
 {
-  success: boolean;
-  operation_id: string;
-  message: string;
-  adjustment_record: object;
-  movement_created: object;
-  audit_log_id: string;
-  warning?: string;               // For large adjustments
+ success: boolean;
+ operation_id: string;
+ message: string;
+ adjustment_record: object;
+ movement_created: object;
+ audit_log_id: string;
+ warning?: string; // For large adjustments
 }
 ```
 
@@ -91,31 +91,31 @@ The Stock Operations API provides endpoints for managing inventory movements, st
 **Request Body**:
 ```typescript
 {
-  supplier_id: string;
-  return_type: 'EXPIRED' | 'DAMAGED' | 'OVERSTOCKED' | 'QUALITY_ISSUE';
-  lines: Array<{
-    batch_id: string;
-    product_id: string;
-    quantity: number;
-    reason: string;
-  }>;
-  reference_document?: string;     // External reference
-  notes?: string;
-  requested_by: string;
+ supplier_id: string;
+ return_type: 'EXPIRED' | 'DAMAGED' | 'OVERSTOCKED' | 'QUALITY_ISSUE';
+ lines: Array<{
+ batch_id: string;
+ product_id: string;
+ quantity: number;
+ reason: string;
+ }>;
+ reference_document?: string; // External reference
+ notes?: string;
+ requested_by: string;
 }
 ```
 
 **Response**:
 ```typescript
 {
-  success: boolean;
-  operation_id: string;
-  message: string;
-  rts_record: object;
-  movements_created: number;
-  expiry_actions_created: number;
-  audit_log_id: string;
-  next_steps: string[];           // Process workflow steps
+ success: boolean;
+ operation_id: string;
+ message: string;
+ rts_record: object;
+ movements_created: number;
+ expiry_actions_created: number;
+ audit_log_id: string;
+ next_steps: string[]; // Process workflow steps
 }
 ```
 
@@ -132,37 +132,37 @@ The Stock Operations API provides endpoints for managing inventory movements, st
 **Request Body**:
 ```typescript
 {
-  original_sale_id?: string;       // Optional reference to original sale
-  return_type: 'DEFECTIVE' | 'WRONG_ITEM' | 'EXPIRED' | 'CUSTOMER_CHANGE_MIND';
-  lines: Array<{
-    product_id: string;
-    quantity: number;
-    unit_price: number;
-    reason: string;
-  }>;
-  customer_info?: {
-    name?: string;
-    phone?: string;
-  };
-  action: 'REFUND' | 'EXCHANGE' | 'STORE_CREDIT';
-  supervisor_approval?: string;    // Required for large refunds
-  notes?: string;
+ original_sale_id?: string; // Optional reference to original sale
+ return_type: 'DEFECTIVE' | 'WRONG_ITEM' | 'EXPIRED' | 'CUSTOMER_CHANGE_MIND';
+ lines: Array<{
+ product_id: string;
+ quantity: number;
+ unit_price: number;
+ reason: string;
+ }>;
+ customer_info?: {
+ name?: string;
+ phone?: string;
+ };
+ action: 'REFUND' | 'EXCHANGE' | 'STORE_CREDIT';
+ supervisor_approval?: string; // Required for large refunds
+ notes?: string;
 }
 ```
 
 **Response**:
 ```typescript
 {
-  success: boolean;
-  operation_id: string;
-  message: string;
-  return_record: object;
-  movements_created: number;
-  returned_to_stock: boolean;      // Whether items returned to inventory
-  refund_amount: number;
-  financial_transaction?: object;
-  audit_log_id: string;
-  warnings?: string[];
+ success: boolean;
+ operation_id: string;
+ message: string;
+ return_record: object;
+ movements_created: number;
+ returned_to_stock: boolean; // Whether items returned to inventory
+ refund_amount: number;
+ financial_transaction?: object;
+ audit_log_id: string;
+ warnings?: string[];
 }
 ```
 
@@ -179,41 +179,41 @@ The Stock Operations API provides endpoints for managing inventory movements, st
 **Request Body**:
 ```typescript
 {
-  count_date: string;              // Date of count
-  counted_by: string;              // User who performed count
-  location?: string;               // Storage location
-  items: Array<{
-    product_id: string;
-    batch_id?: string;
-    system_qty: number;            // System quantity
-    counted_qty: number;           // Actually counted quantity
-    variance: number;              // Calculated difference
-    notes?: string;
-  }>;
-  count_type: 'FULL' | 'PARTIAL' | 'ABC_CLASS';
-  supervisor_verified?: boolean;   // Required for large variances
+ count_date: string; // Date of count
+ counted_by: string; // User who performed count
+ location?: string; // Storage location
+ items: Array<{
+ product_id: string;
+ batch_id?: string;
+ system_qty: number; // System quantity
+ counted_qty: number; // Actually counted quantity
+ variance: number; // Calculated difference
+ notes?: string;
+ }>;
+ count_type: 'FULL' | 'PARTIAL' | 'ABC_CLASS';
+ supervisor_verified?: boolean; // Required for large variances
 }
 ```
 
 **Response**:
 ```typescript
 {
-  success: boolean;
-  operation_id: string;
-  message: string;
-  count_record: object;
-  movements_created: number;
-  adjustments_created: number;
-  variance_analysis: {
-    total_items: number;
-    items_with_variances: number;
-    accuracy_rate: number;
-    largest_positive_variance: number;
-    largest_negative_variance: number;
-    recommendations: string[];
-  };
-  audit_log_id: string;
-  warnings?: string[];
+ success: boolean;
+ operation_id: string;
+ message: string;
+ count_record: object;
+ movements_created: number;
+ adjustments_created: number;
+ variance_analysis: {
+ total_items: number;
+ items_with_variances: number;
+ accuracy_rate: number;
+ largest_positive_variance: number;
+ largest_negative_variance: number;
+ recommendations: string[];
+ };
+ audit_log_id: string;
+ warnings?: string[];
 }
 ```
 
@@ -239,19 +239,19 @@ The Stock Operations API provides endpoints for managing inventory movements, st
 **Response**:
 ```typescript
 {
-  success: boolean;
-  movements: StockMovement[];
-  total_count: number;
-  has_more: boolean;
-  summary: {
-    total_movements: number;
-    movements_returned: number;
-    has_more: boolean;
-    date_range: object;
-    movement_types: string[];
-    net_quantity_change: number;
-  };
-  query_applied: object;
+ success: boolean;
+ movements: StockMovement[];
+ total_count: number;
+ has_more: boolean;
+ summary: {
+ total_movements: number;
+ movements_returned: number;
+ has_more: boolean;
+ date_range: object;
+ movement_types: string[];
+ net_quantity_change: number;
+ };
+ query_applied: object;
 }
 ```
 
@@ -282,10 +282,10 @@ Every operation creates immutable audit log entries:
 Consistent error response format:
 ```typescript
 {
-  success: false;
-  message: string;          // Human-readable error description
-  error_code?: string;      // Machine-readable error code
-  validation_errors?: object[]; // Field-specific validation errors
+ success: false;
+ message: string; // Human-readable error description
+ error_code?: string; // Machine-readable error code
+ validation_errors?: object[]; // Field-specific validation errors
 }
 ```
 

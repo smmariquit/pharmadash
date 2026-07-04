@@ -28,17 +28,17 @@
 ```typescript
 // Example API call for data fetch
 const getData = async () => {
-  const response = await fetch('/api/data');
-  return response.json();
+ const response = await fetch('/api/data');
+ return response.json();
 };
 
 // Example form submission
 const submitForm = async (data) => {
-  const response = await fetch('/api/submit', {
-    method: 'POST',
-    body: JSON.stringify(data),
-  });
-  return response.json();
+ const response = await fetch('/api/submit', {
+ method: 'POST',
+ body: JSON.stringify(data),
+ });
+ return response.json();
 };
 ```
 

@@ -52,13 +52,13 @@ The application will be available at [http://localhost:3000](http://localhost:30
 ```
 web/
 ├── src/
-│   ├── app/          # Next.js 15 App Router
-│   ├── components/   # React components
-│   ├── lib/          # Utility functions
-│   └── middleware.ts # Auth middleware
+│ ├── app/ # Next.js 15 App Router
+│ ├── components/ # React components
+│ ├── lib/ # Utility functions
+│ └── middleware.ts # Auth middleware
 ├── prisma/
-│   └── schema.prisma # Database schema
-└── public/          # Static assets
+│ └── schema.prisma # Database schema
+└── public/ # Static assets
 ```
 
 ## Key Features
