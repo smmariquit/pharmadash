@@ -4,7 +4,7 @@ This document describes the Stock Operations APIs implemented for PharmaDash, ba
 
 ## Overview
 
-The Stock Operations API provides endpoints for managing inventory movements, stock adjustments, and related operations critical to pharmacy inventory management. All operations follow FEFO (First Expire First Out) principles and maintain comprehensive audit trails.
+The Stock Operations API provides endpoints for managing inventory movements, stock adjustments, and related operations critical to pharmacy inventory management. All operations follow FEFO (First Expire First Out) principles and maintain full audit trails.
 
 ## API Endpoints
 
@@ -257,7 +257,7 @@ The Stock Operations API provides endpoints for managing inventory movements, st
 
 **Business Logic**:
 - Returns movements in reverse chronological order (most recent first)
-- Supports comprehensive filtering and pagination
+- Supports full filtering and pagination
 - Includes summary statistics
 - Limits date range to prevent performance issues
 - Validates all query parameters
@@ -265,7 +265,7 @@ The Stock Operations API provides endpoints for managing inventory movements, st
 ## Common Features
 
 ### Validation
-All endpoints implement comprehensive input validation:
+All endpoints implement full input validation:
 - Required field checks
 - Type validation (positive numbers, valid enums)
 - Business rule validation (expiry dates, approval thresholds)
@@ -315,7 +315,7 @@ All operations that affect inventory create stock movement records:
 - Refund processing
 
 ### With Audit System
-- Comprehensive audit trail
+- full audit trail
 - Regulatory compliance reporting
 - Change tracking and accountability
 
@@ -339,4 +339,4 @@ All operations that affect inventory create stock movement records:
 - Implement role-based authorization
 - Audit all security-sensitive operations
 
-This API implementation provides the foundation for comprehensive inventory management while maintaining the audit trail and business logic requirements specified in the PharmaDash PRD.
+This API implementation provides the foundation for full inventory management while maintaining the audit trail and business logic requirements specified in the PharmaDash PRD.
