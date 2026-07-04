@@ -77,32 +77,32 @@ Use the built-in API routes:
 ## Common Use Cases
 
 1. User Registration Flow
-   - Sign up with email
-   - Verify account
-   - Complete profile
+ - Sign up with email
+ - Verify account
+ - Complete profile
 
 2. Data Management
-   - Create new entries
-   - Update existing data
-   - Delete records
+ - Create new entries
+ - Update existing data
+ - Delete records
 
 3. API Integration
-   - Authentication
-   - Data fetching
-   - Form submissions
+ - Authentication
+ - Data fetching
+ - Form submissions
 
 ## Troubleshooting
 
 ### Common Issues
 1. Authentication errors
-   - Check Clerk configuration
-   - Verify environment variables
+ - Check Clerk configuration
+ - Verify environment variables
 
 2. Database connection
-   - Verify DATABASE_URL
-   - Check Prisma schema
+ - Verify DATABASE_URL
+ - Check Prisma schema
 
 3. API errors
-   - Check request format
-   - Verify authentication tokens
+ - Check request format
+ - Verify authentication tokens
 
